@@ -16,11 +16,6 @@ interface Repo {
   updated_at: string;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// EDIT THIS MAP to customise any repo.
-// Key = exact GitHub repo name.  All fields are optional — omitted fields
-// fall back to the GitHub data / auto-selected placeholder image.
-// ─────────────────────────────────────────────────────────────────────────────
 const PROJECT_OVERRIDES: Record<
   string,
   {
@@ -28,25 +23,10 @@ const PROJECT_OVERRIDES: Record<
     description?: string;
     tools?: string[];
   }
-> = {
-  // Example:
-  // "my-cool-app": {
-  //   image: "https://your-cdn.com/my-cool-app.png",
-  //   description: "A full-stack SaaS for managing team tasks in real time.",
-  //   tools: ["Next.js", "Prisma", "Tailwind", "PostgreSQL"],
-  // },
-};
+> = {};
 
-// ─────────────────────────────────────────────────────────────────────────────
-// VIDEO BACKGROUND
-// • Primary  : /public/projects-bg.mp4  (drop your own video here)
-// • Fallback : a free Cloudflare-hosted abstract tech loop
-// ─────────────────────────────────────────────────────────────────────────────
-const VIDEO_SRC = "/ok.mp4"; // swap to an external URL if you prefer
+const VIDEO_SRC = "/ok.mp4";
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Fallback Unsplash images — chosen by topic / language keyword
-// ─────────────────────────────────────────────────────────────────────────────
 const TOPIC_IMAGES: { keywords: string[]; url: string }[] = [
   { keywords: ["machine-learning", "ml", "ai", "deep-learning", "pytorch", "tensorflow"], url: "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=800&q=80" },
   { keywords: ["web", "nextjs", "react", "frontend", "html", "css", "javascript", "typescript"], url: "https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&q=80" },
@@ -91,10 +71,10 @@ export default function Projects() {
     fetch("https://api.github.com/users/OshaniWijekoon/repos?sort=updated&per_page=20")
       .then((r) => r.json())
       .then((data: Repo[]) => {
-      const allowed = ["react-quiz-app", "multi-todo-app", "github-profile-analyzer"];
-      setRepos(data.filter((r) => allowed.includes(r.name)));
-      setLoading(false);
-})
+        const allowed = ["react-quiz-app", "multi-todo-app", "github-profile-analyzer"];
+        setRepos(data.filter((r) => allowed.includes(r.name)));
+        setLoading(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -131,19 +111,17 @@ export default function Projects() {
         position: "relative",
       }}
     >
-      {/* ── Video background (sticky, fills the viewport while section is in view) ── */}
+      {/* ── Video background ── */}
       <div
         style={{
           position: "sticky",
           top: 0,
           height: "100vh",
           overflow: "hidden",
-          // pull it up so the sticky content div sits on top
           marginBottom: "-100vh",
           zIndex: 0,
         }}
       >
-        {/* Actual video */}
         <video
           ref={videoRef}
           src={VIDEO_SRC}
@@ -162,8 +140,6 @@ export default function Projects() {
             transition: "opacity 0.8s ease",
           }}
         />
-
-        {/* Dark overlay — tweak opacity to taste (0.65–0.80 recommended) */}
         <div
           style={{
             position: "absolute",
@@ -172,8 +148,6 @@ export default function Projects() {
               "linear-gradient(135deg, rgba(193, 182, 182, 0.8) 0%, rgba(109, 103, 98, 0.72) 100%)",
           }}
         />
-
-        {/* Subtle orange vignette in the center to guide the eye toward the card */}
         <div
           style={{
             position: "absolute",
@@ -185,7 +159,7 @@ export default function Projects() {
         />
       </div>
 
-      {/* ── Sticky content layer (sits on top of the video layer) ── */}
+      {/* ── Sticky content layer ── */}
       <div
         className="projects-sticky"
         style={{
@@ -197,298 +171,464 @@ export default function Projects() {
           justifyContent: "center",
           overflow: "hidden",
           zIndex: 1,
-          padding: "0 24px",  /* side gutters on small screens */
+          padding: "0 24px",
+          boxSizing: "border-box",
         }}
       >
-        {/* centered container — matches navbar max-width */}
         <div style={{ maxWidth: "1200px", width: "100%", margin: "0 auto" }}>
-        {/* ── Header ── */}
-        <div style={{
-          display: "flex", alignItems: "flex-end", justifyContent: "space-between",
-          marginBottom: "36px", flexWrap: "wrap", gap: "16px",
-        }}>
-          <div>
-            <span
-              className="tag"
+
+          {/* ── Header ── */}
+          <div className="projects-header">
+            <div>
+              <span
+                className="tag"
+                style={{
+                  marginBottom: "12px",
+                  display: "inline-block",
+                  background: "rgba(255,255,255,0.1)",
+                  color: "rgba(255,255,255,0.75)",
+                  borderColor: "rgba(255,255,255,0.15)",
+                }}
+              >
+                Selected Work
+              </span>
+              <h2
+                className="section-heading"
+                style={{ margin: 0, color: "#fff" }}
+              >
+                Projects I&apos;ve <span className="highlight">built.</span>
+              </h2>
+            </div>
+            <motion.a
+              href="https://github.com/OshaniWijekoon"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
               style={{
-                marginBottom: "12px",
-                display: "inline-block",
-                // override tag colours for dark bg
-                background: "rgba(255,255,255,0.1)",
-                color: "rgba(255,255,255,0.75)",
-                borderColor: "rgba(255,255,255,0.15)",
+                borderColor: "rgba(255,255,255,0.35)",
+                color: "#fff",
               }}
             >
-              Selected Work
-            </span>
-            <h2
-              className="section-heading"
-              style={{ margin: 0, color: "#fff" }}
-            >
-              Projects I&apos;ve <span className="highlight">built.</span>
-            </h2>
+              View GitHub ↗
+            </motion.a>
           </div>
-          <motion.a
-            href="https://github.com/OshaniWijekoon"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-outline"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
-            style={{
-              borderColor: "rgba(255,255,255,0.35)",
-              color: "#fff",
-            }}
-          >
-            View GitHub ↗
-          </motion.a>
-        </div>
 
-        {/* ── Loading spinner ── */}
-        {loading && (
-          <div style={{ textAlign: "center", padding: "60px 0" }}>
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-              style={{
-                width: "40px", height: "40px",
-                border: "3px solid rgba(255,255,255,0.15)",
-                borderTopColor: "var(--orange)",
-                borderRadius: "50%", margin: "0 auto 16px",
-              }}
-            />
-            <p style={{ fontFamily: "var(--font-body)", color: "rgba(255,255,255,0.5)" }}>
-              Fetching from GitHub…
-            </p>
-          </div>
-        )}
+          {/* ── Loading spinner ── */}
+          {loading && (
+            <div style={{ textAlign: "center", padding: "60px 0" }}>
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                style={{
+                  width: "40px", height: "40px",
+                  border: "3px solid rgba(255,255,255,0.15)",
+                  borderTopColor: "var(--orange)",
+                  borderRadius: "50%", margin: "0 auto 16px",
+                }}
+              />
+              <p style={{ fontFamily: "var(--font-body)", color: "rgba(255,255,255,0.5)" }}>
+                Fetching from GitHub…
+              </p>
+            </div>
+          )}
 
-        {/* ── Main layout ── */}
-        {!loading && repos.length > 0 && (
-          <div
-            className="projects-grid"
-            style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: "48px", alignItems: "center" }}
-          >
-            {/* Left — counter + scrubber */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-              <div>
-                <motion.p
-                  key={current}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  style={{
-                    fontFamily: "var(--font-display)", fontSize: "4rem",
-                    fontWeight: 800, color: "var(--orange)", lineHeight: 1, margin: 0,
-                  }}
-                >
-                  {String(current + 1).padStart(2, "0")}
-                </motion.p>
+          {/* ── Main layout ── */}
+          {!loading && repos.length > 0 && (
+            <div className="projects-grid">
+
+              {/* Left — counter + scrubber (hidden on mobile, shown on desktop) */}
+              <div className="projects-sidebar">
+                <div>
+                  <motion.p
+                    key={current}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    style={{
+                      fontFamily: "var(--font-display)", fontSize: "4rem",
+                      fontWeight: 800, color: "var(--orange)", lineHeight: 1, margin: 0,
+                    }}
+                  >
+                    {String(current + 1).padStart(2, "0")}
+                  </motion.p>
+                  <p style={{
+                    fontFamily: "var(--font-body)", fontSize: "0.75rem",
+                    color: "rgba(255,255,255,0.45)", margin: "4px 0 0",
+                  }}>
+                    / {String(repos.length).padStart(2, "0")}
+                  </p>
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                  {repos.map((_, i) => (
+                    <motion.div
+                      key={i}
+                      animate={{
+                        height: i === current ? "26px" : "4px",
+                        background: i === current ? "var(--orange)" : "rgba(255,255,255,0.2)",
+                      }}
+                      transition={{ duration: 0.3 }}
+                      style={{ width: "3px", borderRadius: "100px" }}
+                    />
+                  ))}
+                </div>
+
                 <p style={{
-                  fontFamily: "var(--font-body)", fontSize: "0.75rem",
-                  color: "rgba(255,255,255,0.45)", margin: "4px 0 0",
+                  fontFamily: "var(--font-body)", fontSize: "0.65rem",
+                  color: "rgba(255,255,255,0.35)",
+                  textTransform: "uppercase", letterSpacing: "0.12em", lineHeight: 1.6,
+                  writingMode: "vertical-rl", transform: "rotate(180deg)", alignSelf: "flex-start",
                 }}>
-                  / {String(repos.length).padStart(2, "0")}
+                  Scroll to explore
                 </p>
               </div>
 
-              {/* Progress ticks */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                {repos.map((_, i) => (
-                  <motion.div
-                    key={i}
-                    animate={{
-                      height: i === current ? "26px" : "4px",
-                      background: i === current ? "var(--orange)" : "rgba(255,255,255,0.2)",
-                    }}
-                    transition={{ duration: 0.3 }}
-                    style={{ width: "3px", borderRadius: "100px" }}
-                  />
-                ))}
+              {/* Mobile counter row — only visible on small screens */}
+              <div className="projects-mobile-counter">
+                <motion.span
+                  key={current}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  style={{
+                    fontFamily: "var(--font-display)", fontSize: "2rem",
+                    fontWeight: 800, color: "var(--orange)", lineHeight: 1,
+                  }}
+                >
+                  {String(current + 1).padStart(2, "0")}
+                </motion.span>
+                <span style={{
+                  fontFamily: "var(--font-body)", fontSize: "0.75rem",
+                  color: "rgba(255,255,255,0.45)",
+                }}>
+                  / {String(repos.length).padStart(2, "0")}
+                </span>
+                {/* Horizontal tick dots on mobile */}
+                <div style={{ display: "flex", gap: "5px", alignItems: "center", marginLeft: "auto" }}>
+                  {repos.map((_, i) => (
+                    <motion.div
+                      key={i}
+                      animate={{
+                        width: i === current ? "22px" : "4px",
+                        background: i === current ? "var(--orange)" : "rgba(255,255,255,0.25)",
+                      }}
+                      transition={{ duration: 0.3 }}
+                      style={{ height: "3px", borderRadius: "100px" }}
+                    />
+                  ))}
+                </div>
               </div>
 
-              <p style={{
-                fontFamily: "var(--font-body)", fontSize: "0.65rem",
-                color: "rgba(255,255,255,0.35)",
-                textTransform: "uppercase", letterSpacing: "0.12em", lineHeight: 1.6,
-                writingMode: "vertical-rl", transform: "rotate(180deg)", alignSelf: "flex-start",
-              }}>
-                Scroll to explore
-              </p>
-            </div>
-
-            {/* Right — card */}
-            <AnimatePresence mode="wait" custom={direction}>
-              <motion.div
-                key={current}
-                custom={direction}
-                initial={{ opacity: 0, y: direction > 0 ? 60 : -60, scale: 0.97 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: direction > 0 ? -60 : 60, scale: 0.97 }}
-                transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="project-card-inner"
-                style={{
-                  background: "#fff",
-                  border: "1px solid var(--gray-light)",
-                  borderRadius: "20px",
-                  overflow: "hidden",
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  aspectRatio: "2 / 1",
-                  boxShadow: "0 16px 60px rgba(0,0,0,0.35)",
-                  maxHeight: "calc(100vh - 280px)",
-                }}
-              >
-                {/* Image panel */}
-                <div style={{ position: "relative", overflow: "hidden" }}>
-                  <Image
-                    src={image}
-                    alt={repo.name}
-                    fill
-                    style={{ objectFit: "cover", transition: "transform 0.6s ease" }}
-                    unoptimized
-                  />
-                  <div style={{
-                    position: "absolute", inset: 0,
-                    background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.05) 55%)",
-                  }} />
-
-                  {repo.language && (
+              {/* Right — card */}
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={current}
+                  custom={direction}
+                  initial={{ opacity: 0, y: direction > 0 ? 60 : -60, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: direction > 0 ? -60 : 60, scale: 0.97 }}
+                  transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  className="project-card-inner"
+                  style={{
+                    background: "#fff",
+                    border: "1px solid var(--gray-light)",
+                    borderRadius: "20px",
+                    overflow: "hidden",
+                    boxShadow: "0 16px 60px rgba(0,0,0,0.35)",
+                  }}
+                >
+                  {/* Image panel */}
+                  <div className="project-card-image">
+                    <Image
+                      src={image}
+                      alt={repo.name}
+                      fill
+                      style={{ objectFit: "cover", transition: "transform 0.6s ease" }}
+                      unoptimized
+                    />
                     <div style={{
-                      position: "absolute", bottom: "16px", left: "16px", zIndex: 2,
-                      display: "inline-flex", alignItems: "center", gap: "6px",
-                      background: "rgba(255,255,255,0.93)", borderRadius: "100px",
-                      padding: "5px 13px", boxShadow: "0 2px 12px rgba(0,0,0,0.14)",
-                    }}>
-                      <span style={{
-                        width: "7px", height: "7px", borderRadius: "50%",
-                        background: langColors[repo.language] ?? langColors.default,
-                        display: "inline-block",
-                      }} />
-                      <span style={{
-                        fontFamily: "var(--font-body)", fontSize: "0.72rem",
-                        fontWeight: 600, color: "var(--gray-dark)",
+                      position: "absolute", inset: 0,
+                      background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.05) 55%)",
+                    }} />
+
+                    {repo.language && (
+                      <div style={{
+                        position: "absolute", bottom: "12px", left: "12px", zIndex: 2,
+                        display: "inline-flex", alignItems: "center", gap: "6px",
+                        background: "rgba(255,255,255,0.93)", borderRadius: "100px",
+                        padding: "4px 11px", boxShadow: "0 2px 12px rgba(0,0,0,0.14)",
                       }}>
-                        {repo.language}
-                      </span>
-                    </div>
-                  )}
-
-                  {repo.stargazers_count > 0 && (
-                    <div style={{
-                      position: "absolute", top: "16px", right: "16px", zIndex: 2,
-                      background: "rgba(255,255,255,0.93)", borderRadius: "100px",
-                      padding: "4px 11px", fontSize: "0.72rem", fontFamily: "var(--font-body)",
-                      fontWeight: 600, color: "var(--gray-dark)", boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-                    }}>
-                      ⭐ {repo.stargazers_count}
-                    </div>
-                  )}
-                </div>
-
-                {/* Info panel */}
-                <div style={{
-                  padding: "32px 30px",
-                  display: "flex", flexDirection: "column", justifyContent: "space-between",
-                  overflow: "hidden",
-                }}>
-                  <div>
-                    <span className="tag" style={{ marginBottom: "14px", display: "inline-block" }}>
-                      {repo.topics?.[0] ?? "Project"}
-                    </span>
-
-                    <h3 style={{
-                      fontFamily: "var(--font-display)", fontSize: "1.45rem", fontWeight: 800,
-                      color: "var(--black)", marginBottom: "10px", letterSpacing: "-0.02em",
-                      lineHeight: 1.2, textTransform: "capitalize",
-                    }}>
-                      {repo.name.replace(/-/g, " ")}
-                    </h3>
-
-                    <p style={{
-                      fontFamily: "var(--font-body)", fontSize: "0.85rem", color: "var(--gray-mid)",
-                      lineHeight: 1.75, fontWeight: 300, marginBottom: "18px",
-                      display: "-webkit-box", WebkitLineClamp: 3,
-                      WebkitBoxOrient: "vertical", overflow: "hidden",
-                    }}>
-                      {description}
-                    </p>
-
-                    {tools.length > 0 && (
-                      <div style={{ marginBottom: "18px" }}>
-                        <p style={{
-                          fontFamily: "var(--font-body)", fontSize: "0.65rem",
-                          textTransform: "uppercase", letterSpacing: "0.1em",
-                          color: "var(--gray-mid)", marginBottom: "8px", fontWeight: 600,
+                        <span style={{
+                          width: "7px", height: "7px", borderRadius: "50%",
+                          background: langColors[repo.language] ?? langColors.default,
+                          display: "inline-block",
+                        }} />
+                        <span style={{
+                          fontFamily: "var(--font-body)", fontSize: "0.72rem",
+                          fontWeight: 600, color: "var(--gray-dark)",
                         }}>
-                          Built with
-                        </p>
-                        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-                          {tools.map((t) => (
-                            <span key={t} style={{
-                              padding: "4px 11px", borderRadius: "100px",
-                              background: "var(--orange)", color: "#fff",
-                              fontSize: "0.68rem", fontWeight: 600,
-                              fontFamily: "var(--font-body)", letterSpacing: "0.02em",
-                            }}>
-                              {t}
-                            </span>
-                          ))}
-                        </div>
+                          {repo.language}
+                        </span>
+                      </div>
+                    )}
+
+                    {repo.stargazers_count > 0 && (
+                      <div style={{
+                        position: "absolute", top: "12px", right: "12px", zIndex: 2,
+                        background: "rgba(255,255,255,0.93)", borderRadius: "100px",
+                        padding: "4px 11px", fontSize: "0.72rem", fontFamily: "var(--font-body)",
+                        fontWeight: 600, color: "var(--gray-dark)", boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
+                      }}>
+                        ⭐ {repo.stargazers_count}
                       </div>
                     )}
                   </div>
 
-                  <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-                    <motion.a
-                      href={repo.html_url} target="_blank" rel="noopener noreferrer"
-                      className="btn-orange"
-                      whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
-                      style={{ padding: "9px 18px", fontSize: "0.8rem" }}
-                    >
-                      GitHub ↗
-                    </motion.a>
-                    {repo.homepage && (
-                      <motion.a
-                        href={repo.homepage} target="_blank" rel="noopener noreferrer"
-                        className="btn-outline"
-                        whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
-                        style={{ padding: "8px 18px", fontSize: "0.8rem" }}
-                      >
-                        Live Demo ↗
-                      </motion.a>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        )}
+                  {/* Info panel */}
+                  <div className="project-card-info">
+                    <div>
+                      <span className="tag" style={{ marginBottom: "12px", display: "inline-block" }}>
+                        {repo.topics?.[0] ?? "Project"}
+                      </span>
 
-        {!loading && repos.length === 0 && (
-          <p style={{ fontFamily: "var(--font-body)", color: "rgba(255,255,255,0.5)", textAlign: "center" }}>
-            No public repositories found.
-          </p>
-        )}
-        </div> {/* end centered container */}
+                      <h3 className="project-card-title">
+                        {repo.name.replace(/-/g, " ")}
+                      </h3>
+
+                      <p className="project-card-desc">
+                        {description}
+                      </p>
+
+                      {tools.length > 0 && (
+                        <div style={{ marginBottom: "14px" }}>
+                          <p style={{
+                            fontFamily: "var(--font-body)", fontSize: "0.65rem",
+                            textTransform: "uppercase", letterSpacing: "0.1em",
+                            color: "var(--gray-mid)", marginBottom: "8px", fontWeight: 600,
+                          }}>
+                            Built with
+                          </p>
+                          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+                            {tools.map((t) => (
+                              <span key={t} style={{
+                                padding: "4px 11px", borderRadius: "100px",
+                                background: "var(--orange)", color: "#fff",
+                                fontSize: "0.68rem", fontWeight: 600,
+                                fontFamily: "var(--font-body)", letterSpacing: "0.02em",
+                              }}>
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                      <motion.a
+                        href={repo.html_url} target="_blank" rel="noopener noreferrer"
+                        className="btn-orange"
+                        whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
+                        style={{ padding: "9px 18px", fontSize: "0.8rem" }}
+                      >
+                        GitHub ↗
+                      </motion.a>
+                      {repo.homepage && (
+                        <motion.a
+                          href={repo.homepage} target="_blank" rel="noopener noreferrer"
+                          className="btn-outline"
+                          whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
+                          style={{ padding: "8px 18px", fontSize: "0.8rem" }}
+                        >
+                          Live Demo ↗
+                        </motion.a>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          )}
+
+          {!loading && repos.length === 0 && (
+            <p style={{ fontFamily: "var(--font-body)", color: "rgba(255,255,255,0.5)", textAlign: "center" }}>
+              No public repositories found.
+            </p>
+          )}
+        </div>
       </div>
 
       <style>{`
-        @media (max-width: 900px) {
-          .projects-sticky { padding: 0 16px !important; }
-          .projects-grid  { grid-template-columns: 1fr !important; }
-        }
-        @media (max-width: 640px) {
-          .project-card-inner {
-            grid-template-columns: 1fr !important;
-            aspect-ratio: unset !important;
-          }
-          .project-card-inner > div:first-child {
-            aspect-ratio: 1 / 1;
-            position: relative;
-          }
-        }
+        /* ── Reduced motion ── */
         @media (prefers-reduced-motion: reduce) {
           video { display: none; }
+        }
+
+        /* ── Header ── */
+        .projects-header {
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          margin-bottom: 20px;
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        /* ── Main grid: sidebar + card ── */
+        .projects-grid {
+          display: grid;
+          grid-template-columns: 120px 1fr;
+          grid-template-rows: auto;
+          gap: 32px;
+          align-items: center;
+        }
+
+        /* Desktop sidebar */
+        .projects-sidebar {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+        }
+
+        /* Mobile counter row — hidden on desktop */
+        .projects-mobile-counter {
+          display: none;
+        }
+
+        /* ── Card shell ── */
+        .project-card-inner {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          aspect-ratio: 2 / 1;
+          max-height: calc(100vh - 260px);
+        }
+
+        /* Image panel */
+        .project-card-image {
+          position: relative;
+          overflow: hidden;
+        }
+
+        /* Info panel */
+        .project-card-info {
+          padding: 28px 26px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          overflow: hidden;
+        }
+
+        .project-card-title {
+          font-family: var(--font-display);
+          font-size: 1.45rem;
+          font-weight: 800;
+          color: var(--black);
+          margin-bottom: 10px;
+          letter-spacing: -0.02em;
+          line-height: 1.2;
+          text-transform: capitalize;
+        }
+
+        .project-card-desc {
+          font-family: var(--font-body);
+          font-size: 0.85rem;
+          color: var(--gray-mid);
+          line-height: 1.75;
+          font-weight: 300;
+          margin-bottom: 14px;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        /* ── Tablet (≤ 900px) ── */
+        @media (max-width: 900px) {
+          .projects-sticky {
+            padding: 0 16px !important;
+          }
+
+          .projects-header {
+            margin-bottom: 14px;
+          }
+
+          .projects-grid {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto;
+            gap: 14px;
+          }
+
+          /* Hide the vertical sidebar on tablet/mobile */
+          .projects-sidebar {
+            display: none;
+          }
+
+          /* Show the horizontal counter row */
+          .projects-mobile-counter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          }
+
+          .project-card-inner {
+            aspect-ratio: unset;
+            max-height: unset;
+            /* image left, info right — still side by side on tablet */
+          }
+        }
+
+        /* ── Small phone (≤ 640px) ── */
+        @media (max-width: 640px) {
+          .projects-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+          }
+
+          .project-card-inner {
+            /* Stack: image on top, info below */
+            grid-template-columns: 1fr !important;
+            grid-template-rows: 200px auto;
+          }
+
+          /* Image panel needs an explicit height since fill is used */
+          .project-card-image {
+            height: 200px;
+            width: 100%;
+          }
+
+          .project-card-info {
+            padding: 18px 16px;
+            gap: 12px;
+          }
+
+          .project-card-title {
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+          }
+
+          .project-card-desc {
+            font-size: 0.8rem;
+            -webkit-line-clamp: 4;
+            margin-bottom: 10px;
+          }
+
+          /* Slightly smaller section heading on tiny phones */
+          #projects .section-heading {
+            font-size: clamp(1.4rem, 6vw, 2rem);
+          }
+        }
+
+        /* ── Very small phones (≤ 380px) ── */
+        @media (max-width: 380px) {
+          .project-card-inner {
+            grid-template-rows: 160px auto;
+          }
+
+          .project-card-image {
+            height: 160px;
+          }
         }
       `}</style>
     </section>

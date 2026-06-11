@@ -107,7 +107,7 @@ export default function Skills() {
       {/* Video background */}
       <video
         autoPlay muted loop playsInline
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, opacity: 1 }}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, opacity:2 }}
       >
         <source src="/kavi.mp4" type="video/mp4" />
       </video>
@@ -118,34 +118,35 @@ export default function Skills() {
       <div style={{ maxWidth: "1200px", margin: "0 auto", position: "relative", zIndex: 2 }}>
 
         {/* Header */}
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "60px", flexWrap: "wrap", gap: "24px" }}>
+        <div className="skills-header" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: "60px", flexWrap: "wrap", gap: "24px" }}>
           <motion.div initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6 }}>
             <span className="tag" style={{ marginBottom: "16px", display: "inline-block" }}>Skills & Tools</span>
             <h2 className="section-heading">What I work<br /><span className="highlight">with.</span></h2>
           </motion.div>
           <motion.p
+            className="skills-description"
             initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: 0.2 }}
             style={{ fontFamily: "var(--font-body)", fontSize: "0.95rem", color: "var(--gray-mid)", maxWidth: "320px", lineHeight: 1.7, fontWeight: 300 }}
           >
             A blend of design and development tools I use to turn ideas into polished products.
           </motion.p>
-          <div className="gsap-reveal" style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}></div>
         </div>
 
         {/* Filter tabs */}
         <motion.div
+          className="skills-filters"
           initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: 0.3 }}
           style={{ display: "flex", gap: "8px", marginBottom: "48px", flexWrap: "wrap" }}
         >
           {categories.map((cat) => (
             <motion.button key={cat} onClick={() => setActiveCategory(cat)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}
-              style={{ padding: "8px 20px", borderRadius: "100px", border: "1.5px solid", borderColor: activeCategory === cat ? "var(--orange)" : "var(--gray-light)", background: activeCategory === cat ? "var(--orange)" : "#fff", color: activeCategory === cat ? "#fff" : "var(--gray-mid)", fontFamily: "var(--font-body)", fontSize: "0.825rem", fontWeight: 500, cursor: "pointer", transition: "all 0.2s" }}>
+              style={{ padding: "8px 20px", borderRadius: "100px", border: "1.5px solid", borderColor: activeCategory === cat ? "var(--orange)" : "var(--gray-light)", background: activeCategory === cat ? "var(--orange)" : "#fff", color: activeCategory === cat ? "#fff" : "var(--gray-mid)", fontFamily: "var(--font-body)", fontSize: "0.825rem", fontWeight: 500, cursor: "pointer", transition: "all 0.2s", whiteSpace: "nowrap" }}>
               {cat}
             </motion.button>
           ))}
         </motion.div>
 
-        {/* Skills grid — icon cards */}
+        {/* Skills grid */}
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory}
@@ -188,6 +189,7 @@ export default function Skills() {
 
         {/* Bottom strip */}
         <motion.div
+          className="skills-footer"
           initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, delay: 0.6 }}
           style={{ marginTop: "64px", paddingTop: "40px", borderTop: "1px solid #E0E0DD", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "16px" }}
         >
@@ -201,9 +203,73 @@ export default function Skills() {
       </div>
 
       <style>{`
+        /* ── Mobile: ≤768px ── */
         @media (max-width: 768px) {
-          .skills-section { padding: 80px 24px !important; margin: 0 !important; border-radius: 0 !important; }
-          .skills-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)) !important; gap: 12px !important; }
+          .skills-section {
+            padding: 72px 20px !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+          }
+
+          .skills-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 16px !important;
+            margin-bottom: 36px !important;
+          }
+
+          .skills-description {
+            max-width: 100% !important;
+            font-size: 0.875rem !important;
+          }
+
+          .skills-filters {
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            padding-bottom: 6px !important;
+            -webkit-overflow-scrolling: touch !important;
+            scrollbar-width: none !important;
+            margin-bottom: 32px !important;
+          }
+
+          .skills-filters::-webkit-scrollbar {
+            display: none !important;
+          }
+
+          .skills-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 10px !important;
+          }
+
+          .skills-grid > div {
+            padding: 16px 10px !important;
+            gap: 8px !important;
+            border-radius: 16px !important;
+          }
+
+          .skills-footer {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 20px !important;
+            margin-top: 40px !important;
+            padding-top: 28px !important;
+          }
+
+          .skills-footer p {
+            font-size: 1.1rem !important;
+          }
+        }
+
+        /* ── Very small screens: ≤400px ── */
+        @media (max-width: 400px) {
+          .skills-section {
+            padding: 60px 16px !important;
+          }
+
+          .skills-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 8px !important;
+          }
         }
       `}</style>
     </section>
