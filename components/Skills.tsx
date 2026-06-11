@@ -109,7 +109,7 @@ export default function Skills() {
         autoPlay muted loop playsInline
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, opacity: 1 }}
       >
-        <source src="https://res.cloudinary.com/dbujciuim/video/upload/v1781106603/osh_piwoax.mp4" />
+        <source src="/kavi.mp4" type="video/mp4" />
       </video>
 
       {/* Overlay */}
