@@ -166,7 +166,7 @@ export default function About() {
           <div>
             <motion.p
               initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.2 }}
-              style={{ fontFamily: "var(--font-body)", fontSize: "1.05rem", color: "#2a2a2a", lineHeight: 1.85, fontWeight: 400, marginBottom: "36px" }}
+              style={{ fontFamily: "Times New Roman", fontSize: "1.05rem", color: "#2a2a2a", lineHeight: 1.85, fontWeight: 400, marginBottom: "36px" }}
             >
               I'm a 3rd year undergraduate at SLIIT, specializing in Information Technology with a focus on UI/UX design and web development. I love bridging the gap between design and engineering — crafting interfaces that look great and work even better. From academic group projects to personal side builds, I bring both creative thinking and technical precision to everything I make.
             </motion.p>
@@ -243,7 +243,7 @@ export default function About() {
 
                 {/* Year badge */}
                 <p style={{
-                  fontFamily: "var(--font-body)",
+                  fontFamily: "Times New Roman",
                   fontSize: "0.62rem",
                   fontWeight: 700,
                   marginBottom: "10px",

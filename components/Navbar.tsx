@@ -227,11 +227,13 @@ export default function Navbar() {
       </AnimatePresence>
 
       <style>{`
-        @media (max-width: 768px) {
-          .desktop-nav { display: none !important; }
-          .mobile-menu-btn { display: flex !important; }
-        }
-      `}</style>
+  @media (max-width: 768px) {
+    .desktop-nav { display: none !important; }
+    .mobile-menu-btn { display: flex !important; }
+  }
+`}</style>
+
+      
     </>
   );
 }
